@@ -1,0 +1,6 @@
+# Your personal data (memories, tasks, notes) stays on your machine
+data/
+.env
+__pycache__/
+*.pyc
+.venv/
