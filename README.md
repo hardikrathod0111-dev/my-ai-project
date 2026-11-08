@@ -1,6 +1,6 @@
 # my-ai-project — your personal AI agent
 
-A personal AI assistant you chat with in the terminal. It is powered by Claude and built around you:
+A personal AI assistant you chat with in the terminal or on Telegram. It is powered by Claude and built around you:
 
 - **Knows you.** It reads `profile.md` (your name, goals, tone, content style) every time it starts.
 - **Remembers.** It saves lasting facts you tell it ("I post reels on Tuesdays") to long-term memory and uses them in later chats.
@@ -51,6 +51,26 @@ Commands:
 | `/reset`  | start a fresh conversation (reloads `profile.md`)  |
 | `/quit`   | exit                                               |
 
+## Chat from your phone (Telegram)
+
+1. In Telegram, message **@BotFather**, send `/newbot`, and follow the steps. It gives you a **bot token** like `123456:ABC...`. Keep it secret.
+2. Message **@userinfobot** to get your numeric **user id** (e.g. `123456789`).
+3. On your computer, run:
+
+```bash
+export ANTHROPIC_API_KEY="sk-ant-..."
+export TELEGRAM_BOT_TOKEN="123456:ABC..."
+export TELEGRAM_ALLOWED_USERS="123456789"   # only these users can talk to the bot
+python -m agent.telegram_bot
+```
+
+4. Open your bot in Telegram and send `/start`. The `/tasks`, `/notes`, `/memory` and `/reset` commands appear in the bot's menu.
+
+Notes:
+- The bot only works **while this command is running**. To keep it on 24/7, run it on an always-on computer or a small cloud server (e.g. a $5/month VPS, Railway, or Render).
+- The bot ignores anyone who isn't in `TELEGRAM_ALLOWED_USERS`, because it can see your memories, tasks and notes. If someone else messages it, they're told their user id so you can add them if you want.
+- The terminal and Telegram share the same memories, tasks and notes (the `data/` folder), so you can use both.
+
 ## Settings (optional environment variables)
 
 | Variable        | Default           | Meaning                                                             |
@@ -72,6 +92,7 @@ you ──► agent/main.py ──► Claude API ──► reply
 ```
 
 - `agent/main.py` is the chat loop. It sends your message to Claude, runs any tools Claude asks for, and repeats until Claude replies.
+- `agent/telegram_bot.py` connects the same agent to Telegram (one conversation per chat).
 - `agent/tools.py` holds the tools (memory, tasks, notes, clock). To give your agent a new ability, add a definition to `TOOL_DEFINITIONS` and a handler function to `_HANDLERS`.
 - `agent/storage.py` saves everything as plain JSON files you can open and edit.
 

@@ -43,7 +43,7 @@ wrong or outdated, `forget` it and save the corrected version. Never store passw
 numbers or other secrets.
 
 Style: follow the user's preferences from the profile. Default to concise, friendly, practical \
-answers formatted for a terminal (short paragraphs, simple bullet lists, no tables).
+answers in plain text that reads well in a terminal or chat app (short paragraphs, simple bullet lists, no tables or markdown headings).
 """
 
 
@@ -141,36 +141,34 @@ Commands:
 Anything else is sent to the agent."""
 
 
+def run_command(cmd: str, agent: Agent) -> str:
+    """Run a shared slash command (/tasks, /notes, /memory, /reset) and return its output."""
+    if cmd == "/reset":
+        agent.reset()
+        return "Started a fresh conversation."
+    if cmd == "/tasks":
+        lines = [
+            f"{t['id']}. {t['title']}" + (f"  (due {t['due']})" if t.get("due") else "")
+            for t in tasks.load() if not t["done"]
+        ]
+        return "\n".join(lines) or "No open tasks."
+    if cmd == "/notes":
+        lines = [
+            f"{n['id']}. {n['title']}" + (f"  #{' #'.join(n['tags'])}" if n["tags"] else "")
+            for n in notes.load()
+        ]
+        return "\n".join(lines) or "No notes yet."
+    if cmd == "/memory":
+        return "\n".join(f"{m['id']}. {m['fact']}" for m in memories.load()) or "Nothing remembered yet."
+    return f"Unknown command {cmd}. Type /help."
+
+
 def handle_command(cmd: str, agent: Agent) -> bool:
-    """Handle a slash command. Returns False to quit."""
+    """Handle a slash command in the terminal. Returns False to quit."""
     if cmd in ("/quit", "/exit"):
         return False
-    if cmd == "/help":
-        print(HELP)
-    elif cmd == "/reset":
-        agent.reset()
-        print("Started a fresh conversation.")
-    elif cmd == "/tasks":
-        open_tasks = [t for t in tasks.load() if not t["done"]]
-        for t in open_tasks:
-            print(f"  {t['id']}. {t['title']}" + (f"  (due {t['due']})" if t.get("due") else ""))
-        if not open_tasks:
-            print("  No open tasks.")
-    elif cmd == "/notes":
-        all_notes = notes.load()
-        for n in all_notes:
-            tags = f"  #{' #'.join(n['tags'])}" if n["tags"] else ""
-            print(f"  {n['id']}. {n['title']}{tags}")
-        if not all_notes:
-            print("  No notes yet.")
-    elif cmd == "/memory":
-        mem = memories.load()
-        for m in mem:
-            print(f"  {m['id']}. {m['fact']}")
-        if not mem:
-            print("  Nothing remembered yet.")
-    else:
-        print(f"Unknown command {cmd}. Type /help.")
+    output = HELP if cmd == "/help" else run_command(cmd, agent)
+    print("\n".join(f"  {line}" for line in output.splitlines()))
     return True
 
 
