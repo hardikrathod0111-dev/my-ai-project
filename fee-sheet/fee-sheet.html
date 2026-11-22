@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Training Fees</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=block" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  :root{
+    --paper:#F5F2EC; --ink:#191916; --muted:#6E6A62; --line:#D8D2C6; --soft:#ECE7DE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:210mm;height:297mm;background:var(--paper)}
+  body{font-family:Inter,sans-serif;color:var(--ink);font-size:9.6pt;line-height:1.5;
+       -webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{width:210mm;height:297mm;padding:14mm 16mm 11mm;display:flex;flex-direction:column}
+  .serif{font-family:"Instrument Serif",serif;font-weight:400}
+  .eyebrow{font-size:7.4pt;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:500}
+
+  header{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:5mm;border-bottom:1px solid var(--ink)}
+  header h1{font-size:34pt;line-height:.95;letter-spacing:-.01em}
+  header .role{margin-top:3mm;color:var(--muted);font-size:9.6pt}
+  header .right{text-align:right}
+  header .right .serif{font-size:15pt;font-style:italic;display:block;margin-top:1mm}
+
+  .creds{display:grid;grid-template-columns:28mm 1fr;gap:6mm;padding:4mm 0;border-bottom:1px solid var(--line)}
+  .creds ul{list-style:none;display:flex;flex-wrap:wrap;gap:1.5mm 7mm;font-size:9.2pt}
+  .creds li::before{content:"—";color:var(--muted);margin-right:2mm}
+
+  section{padding-top:6mm}
+  .sec-head{display:flex;align-items:baseline;gap:4mm;margin-bottom:3.5mm}
+  .sec-head .num{font-size:9pt;color:var(--muted)}
+  .sec-head h2{font-size:21pt;line-height:1}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+  .card{border:1px solid var(--line);padding:5mm 5mm 4.5mm;display:flex;flex-direction:column}
+  .card .place{display:flex;justify-content:space-between;align-items:baseline}
+  .card h3{font-size:17pt;line-height:1.05;margin-top:1.5mm}
+  .card .venue{color:var(--muted);font-size:9pt;margin-top:.5mm}
+  .facts{list-style:none;margin:3mm 0 3.5mm;flex:1}
+  .facts li{padding:1.3mm 0;border-top:1px solid var(--soft);display:flex;justify-content:space-between;gap:4mm}
+  .facts li span:first-child{color:var(--muted)}
+  .facts li span:last-child{text-align:right}
+
+  .prices{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--ink);padding-top:3mm}
+  .prices div + div{border-left:1px solid var(--line);padding-left:4mm}
+  .prices .amt{font-size:20pt;line-height:1.1;margin-top:.5mm}
+  .prices .note{font-size:7.8pt;color:var(--muted)}
+
+  /* Personal training */
+  .pt{display:grid;grid-template-columns:1.12fr 1fr;gap:5mm}
+  .feature{background:var(--ink);color:var(--paper);padding:5.5mm;display:flex;flex-direction:column;position:relative}
+  .feature .eyebrow{color:#A9A398}
+  .tag{position:absolute;top:5.5mm;right:5.5mm;font-size:7pt;letter-spacing:.16em;text-transform:uppercase;
+       border:1px solid #8C877C;padding:1.2mm 2.4mm;color:var(--paper)}
+  .feature h3,.solo h3{font-size:17pt;line-height:1.08;margin-top:1.5mm}
+  .big{font-size:32pt;line-height:1;margin-top:3.5mm}
+  .big small{font-family:Inter,sans-serif;font-size:9pt;color:#A9A398;margin-left:1.5mm}
+  .incl{list-style:none;margin-top:3mm}
+  .incl li{padding:1.2mm 0;border-top:1px solid #34332E;display:flex;gap:3mm}
+  .incl li::before{content:"";width:1.4mm;height:1.4mm;background:currentColor;border-radius:50%;margin-top:1.9mm;flex:none}
+  .addon{margin-top:3.5mm;padding:3mm 3.5mm;background:#26251F;font-size:8.8pt;display:flex;justify-content:space-between;gap:4mm}
+  .addon b{font-weight:500;white-space:nowrap}
+  .why{margin-top:auto;padding-top:3.5mm;font-size:12pt;line-height:1.3;font-style:italic;color:#E8E3D9}
+
+  .solo{border:1px solid var(--ink);padding:5.5mm;display:flex;flex-direction:column}
+  .solo .big small{color:var(--muted)}
+  .solo .incl li{border-top-color:var(--soft)}
+  .slots{margin-top:auto;padding-top:4mm;display:flex;align-items:center;gap:3mm;font-size:8.8pt;color:var(--muted)}
+  .dots{display:flex;gap:1.4mm}
+  .dots i{width:2.6mm;height:2.6mm;border:1px solid var(--ink);border-radius:50%}
+
+  footer{margin-top:6mm;padding-top:4mm;border-top:1px solid var(--ink);display:flex;justify-content:space-between;align-items:flex-end}
+  footer .cta{font-size:15pt;line-height:1.2}
+  footer .contact{text-align:right;font-size:9.4pt;line-height:1.6}
+  footer .contact span{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div>
+      <h1 class="serif">[Your Name]</h1>
+      <p class="role">Strength &amp; Conditioning Coach &nbsp;·&nbsp; Ahmedabad</p>
+    </div>
+    <div class="right">
+      <span class="eyebrow">Programmes &amp; Fees</span>
+      <span class="serif">2026</span>
+    </div>
+  </header>
+
+  <div class="creds">
+    <span class="eyebrow" style="padding-top:.6mm">Credentials</span>
+    <ul>
+      <li>[Certification 1]</li>
+      <li>[Certification 2]</li>
+      <li>[Certification 3]</li>
+      <li>[X] years coaching</li>
+    </ul>
+  </div>
+
+  <section>
+    <div class="sec-head"><span class="num">01</span><h2 class="serif">Group training</h2></div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="place"><span class="eyebrow">Thaltej</span><span class="eyebrow">Up to 20</span></div>
+        <h3 class="serif">Calihood Calisthenics</h3>
+        <p class="venue">Calisthenics-based group programme</p>
+        <ul class="facts">
+          <li><span>Programme</span><span>Structured, 5 days a week</span></li>
+          <li><span>Coached by me</span><span>Tue · Thu · Sat</span></li>
+          <li><span>Time</span><span>7:00 – 8:00 PM</span></li>
+        </ul>
+        <div class="prices">
+          <div><p class="note">1 month</p><p class="amt serif">₹5,500</p></div>
+          <div><p class="note">3 months</p><p class="amt serif">₹11,000</p><p class="note">You save ₹5,500</p></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="place"><span class="eyebrow">Paldi</span><span class="eyebrow">Up to 10</span></div>
+        <h3 class="serif">Aura Yoga Studio</h3>
+        <p class="venue">Small batch, individual programming</p>
+        <ul class="facts">
+          <li><span>Programme</span><span>Customised for each member</span></li>
+          <li><span>Days</span><span>Mon · Wed · Fri</span></li>
+          <li><span>Time</span><span>6:15 – 8:00 PM</span></li>
+        </ul>
+        <div class="prices">
+          <div><p class="note">1 month</p><p class="amt serif">₹6,000</p></div>
+          <div><p class="note">3 months</p><p class="amt serif">₹15,000</p><p class="note">You save ₹3,000</p></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">02</span><h2 class="serif">Personal training</h2></div>
+    <div class="pt">
+
+      <div class="feature">
+        <span class="tag">Best value</span>
+        <span class="eyebrow">With my team</span>
+        <h3 class="serif">Home personal training</h3>
+        <p class="big serif">₹15,000<small>/ month</small></p>
+        <ul class="incl">
+          <li>1-on-1 home sessions, 3 times a week</li>
+          <li>6-day weekly activity routine</li>
+          <li>1-month diet plan</li>
+        </ul>
+        <div class="addon"><span>Weight loss? Add a customised diet</span><b>+ ₹5,000 &nbsp;=&nbsp; ₹20,000</b></div>
+        <p class="why serif">One-on-one coaching at your doorstep, with diet and daily routine included — at half the cost of training with me directly.</p>
+      </div>
+
+      <div class="solo">
+        <span class="eyebrow">With me</span>
+        <h3 class="serif">Personal coaching</h3>
+        <p class="big serif">₹30–36k<small>/ month</small></p>
+        <ul class="incl">
+          <li>Training</li>
+          <li>Nutrition</li>
+          <li>Recovery</li>
+          <li>Rehab</li>
+        </ul>
+        <div class="slots">
+          <div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <span>Only 6 clients a month</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p class="cta serif">To book a slot or ask a question,<br><i>message me directly.</i></p>
+    <p class="contact">
+      <span>WhatsApp</span>&nbsp; [+91 00000 00000]<br>
+      <span>Instagram</span>&nbsp; [@yourhandle]
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>
